@@ -5,7 +5,7 @@ import likesPlus from "./index.js";
 
 
 let commentsContainer;
-//почему-то не дает передать в гет???
+
 const host = "https://webdev-hw-api.vercel.app/api/v1/kolesnichenko-a/comments";
 
 const password = "Bearer ksdfsksdfjfsdjk";
