@@ -18,7 +18,7 @@ export const loaderComments = document.querySelector('.loaderComments');
 
 loaderComments.style.display = 'none';
 
-
+console.log(123);
 apiGet();
 
 function likesPlus() {

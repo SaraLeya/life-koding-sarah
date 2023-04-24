@@ -6,15 +6,17 @@ import likesPlus from "./index.js";
 
 let commentsContainer;
 
-const host = "https://webdev-hw-api.vercel.app/api/v1/kolesnichenko-a/comments";
+//export const host = "https://webdev-hw-api.vercel.app/api/v1/kolesnichenko-a/comments";
+
+console.log(1234);
 
 const password = "Bearer ksdfsksdfjfsdjk";
 
 function apiGet() {
-  fetch(host, 
+  fetch("https://webdev-hw-api.vercel.app/api/v1/kolesnichenko-a/comments", 
     { method: 'GET',
      headers: {
-      Authorization: password,
+      Authorization: "Bearer ksdfsksdfjfsdjk",
      },
 })
 .then ((response) => {
@@ -32,7 +34,7 @@ function apiGet() {
 
 function buttonPost() {
 
-  fetch(host, {
+  fetch("https://webdev-hw-api.vercel.app/api/v1/kolesnichenko-a/comments", {
     method: 'POST',
     body: JSON.stringify({
       text: commentElement.value,
