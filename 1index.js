@@ -4,13 +4,14 @@ let commentsContainer;
 const loaderStart = document.querySelector(".loaderStart");
 
 const host = "https://webdev-hw-api.vercel.app/api/v2/kolesnichenko-a/comments";
-let password = "Bearer ksdfsksdfjfsdjk";
+let token = "Bearer ksdfsksdfjfsdjk";
+token = null;
 
 function apiGet() {
   fetch(host, {
     method: "GET",
     headers: {
-      AAuthorization: password,
+      AAuthorization: token,
     },
   })
     .then((response) => {
@@ -26,10 +27,35 @@ function apiGet() {
     });
 }
 
-apiGet();
+renderApp();
 
 function renderApp() {
   const appEl = document.getElementById("app");
+if (!token) {
+  const appHtml = ` 
+  <div class="container">
+  
+  <div id="pass" class="add-formPass">
+          <input id="userName" type="text" class="add-form-userName" placeholder="Введите логин" />
+          <textarea id="userPass"
+            type="textarea"
+            class="add-form-userPass"
+            placeholder="Введите ваш пароль"
+            rows="1"></textarea>
+          <div class="add-form-row">
+            <button id="login-button" class="add-form-button">Войти</button>
+          </div>
+        </div>`;
+    appEl.innerHTML = appHtml;
+document.getElementById('login-button').addEventListener('click', () => {
+  token = "Bearer ksdfsksdfjfsdjk";
+  apiGet();
+});
+
+
+    return;
+}
+
   const commentsContainerHtml = commentsContainer
   .map((commentUser, id) => {
     return `<li data-id="${id}" class="comment">
@@ -58,20 +84,6 @@ function renderApp() {
 
   const appHtml = ` 
 <div class="container">
-
-<div id="pass" class="add-formPass">
-        <input id="userName" type="text" class="add-form-userName" placeholder="Введите логин" />
-        <textarea
-          id="userPass"
-          type="textarea"
-          class="add-form-userPass"
-          placeholder="Введите ваш пароль"
-          rows="1"
-        ></textarea>
-        <div class="add-form-row">
-          <button id="buttonApp" class="add-form-button">Войти</button>
-        </div>
-      </div>
 <ul id="list" class="comments">
   ${commentsContainerHtml}
 </ul>
