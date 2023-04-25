@@ -14,7 +14,7 @@ export function getRender({ token }){
         
 }
 
-export postCom ({ text, token }){
+export function postCom ({ text, token }){
    return fetch(host, {
         method: "POST",
         body: JSON.stringify({

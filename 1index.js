@@ -1,4 +1,4 @@
-import { getRender } from "./1api.js";
+import { getRender, postCom} from "./1api.js";
 
 let commentsContainer;
 const loaderStart = document.querySelector(".loaderStart");
