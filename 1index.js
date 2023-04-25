@@ -1,4 +1,4 @@
-
+import { getRender } from "./1api.js";
 
 let commentsContainer;
 const loaderStart = document.querySelector(".loaderStart");
@@ -8,23 +8,15 @@ let token = "Bearer ksdfsksdfjfsdjk";
 token = null;
 
 function apiGet() {
-  fetch(host, {
-    method: "GET",
-    headers: {
-      AAuthorization: token,
-    },
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((response) => {
-      commentsContainer = response.comments;
+  return getRender({ token })
+  .then((response) => {
+    commentsContainer = response.comments;
 
-      loaderStart.style.display = "none";
-     // loaderComments.style.display = "none";
+    loaderStart.style.display = "none";
+   // loaderComments.style.display = "none";
 
-     renderApp();
-    });
+   renderApp();
+  });
 }
 
 renderApp();
@@ -32,7 +24,7 @@ renderApp();
 function renderApp() {
   const appEl = document.getElementById("app");
 if (!token) {
-  const appHtml = ` 
+  const appHtml = `
   <div class="container">
   
   <div id="pass" class="add-formPass">
@@ -166,30 +158,10 @@ document.getElementById('login-button').addEventListener('click', () => {
 
 
 function buttonPost() {
-  fetch(host, {
-    method: "POST",
-    body: JSON.stringify({
-      //text: commentElement.value,
-      //name: nameElement.value,
-      //forceError: true,
-    }),
+  return postCom({
+    text: commentElement.value,
+    token
   })
-    .then((response) => {
-      if (response.status === 500) {
-        loaderComments.style.display = "none";
-        alert("Сервер не работает. Проверьте подключение и попробуйте еще раз");
-        return Promise.reject(
-          "Сервер не работает. Проверьте подключение и попробуйте еще раз"
-        );
-      } else if (response.status === 400) {
-        loaderComments.style.display = "none";
-        alert("Мало букв");
-        return Promise.reject("Мало букв");
-      } else {
-        loaderComments.style.display = "block";
-        return response.json();
-      }
-    })
     .then((response) => {
       commentElement.value = "";
       nameElement.value = "";
