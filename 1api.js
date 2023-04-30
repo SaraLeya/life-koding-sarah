@@ -1,6 +1,7 @@
 
 const host = "https://webdev-hw-api.vercel.app/api/v2/kolesnichenko-a/comments";
 const userHost = " https://webdev-hw-api.vercel.app/api/user/login";
+const RegNewUser = "https://webdev-hw-api.vercel.app/api/user";
 
 export function getRender({ token }){
     return fetch(host, {
@@ -57,6 +58,23 @@ export function loginUser ({ login, password }){
      .then((response) => {
       if (response.status === '400'){
         throw new Error ('Неверный логин или пароль');
+      }
+           return response.json();
+       });
+}
+//авторицация пользователя 
+export function registerUser ({ login, password, name }){
+  return fetch(RegNewUser, {
+       method: "POST",
+       body: JSON.stringify({
+        login,
+        name,
+        password,
+       }),
+     })
+     .then((response) => {
+      if (response.status === '400'){
+        throw new Error ('Такой пользователь уже существует');
       }
            return response.json();
        });

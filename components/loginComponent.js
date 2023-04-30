@@ -1,4 +1,4 @@
-import { loginUser } from "../1api.js";
+import { loginUser, registerUser } from "../1api.js";
 
 export function renderLoginComponents ({ appEl, setToken, apiGet }){
   let isLoginMode = true;
@@ -20,38 +20,67 @@ const renderForm = () => {
     appEl.innerHTML = appHtml;
     
 document.getElementById('login-button').addEventListener('click', () => {
-const login = document.getElementById('login-input').value;
-const password = document.getElementById('password').value;
-if (!login)  {
-  alert('ВВЕДИТЕ ЛОГИН');
-  return;
-}
-if (!password)  {
-  alert('ВВЕДИТЕ ПАРОЛЬ');
-  return;
-}
+  if(isLoginMode){
+    const login = document.getElementById('login-input').value;
+    const password = document.getElementById('password').value;
+    if (!login)  {
+      alert('ВВЕДИТЕ ЛОГИН');
+      return;
+    }
+    if (!password)  {
+      alert('ВВЕДИТЕ ПАРОЛЬ');
+      return;
+    }
+    
+    loginUser ({
+    login:'login',
+    password:'password',
+    })
+    .then((user) => {
+    console.log(user);
+    setToken(`Bearer ${user.user.token}`);
+    apiGet();
+    })
+    .catch((error) => {
+    //вывести красивый алерт 
+    alert(error.message);
+    });
+  } else {
 
-loginUser ({
-login:'login',
-password:'password',
-})
-.then((user) => {
-console.log(user);
-setToken(`Bearer ${user.user.token}`);
-apiGet();
-})
-.catch((error) => {
-//вывести красивый алерт 
-alert(error.message);
+    const login = document.getElementById('login-input').value;
+    const password = document.getElementById('password').value;
+    if (!login)  {
+      alert('ВВЕДИТЕ ЛОГИН');
+      return;
+    }
+    if (!password)  {
+      alert('ВВЕДИТЕ ПАРОЛЬ');
+      return;
+    }
+    
+    registerUser ({
+    login:'login',
+    password:'password',
+    name:'name',
+    })
+    .then((user) => {
+    console.log(user);
+    setToken(`Bearer ${user.user.token}`);
+    apiGet();
+    })
+    .catch((error) => {
+    //вывести красивый алерт 
+    alert(error.message);
+    });
+
+  }
 });
-});
-document.getElementById('toggle-button').addEventListener('click', () => {
-isLoginMode = !isLoginMode;
+    document.getElementById('toggle-button').addEventListener('click', () => {
+    isLoginMode = !isLoginMode;
+    renderForm();
+    });
+  };
+
 renderForm();
-});
-};
-
-renderForm();
 }
-
 
