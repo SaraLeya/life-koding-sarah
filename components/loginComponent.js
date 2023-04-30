@@ -1,3 +1,5 @@
+import { login } from "../1api.js";
+
 export function renderLoginComponents ({ appEl, setToken }){
     const appHtml = `
     <div class="container">
@@ -15,9 +17,15 @@ export function renderLoginComponents ({ appEl, setToken }){
           </div>`;
       appEl.innerHTML = appHtml;
   document.getElementById('login-button').addEventListener('click', () => {
-
-    setToken("Bearer ksdfsksdfjfsdjk");
-    apiGet();
+login ({
+  login:'',
+  password:'',
+})
+.then((user) => {
+console.log(user);
+setToken(`Bearer ${user.user.token}`);
+apiGet();
+})
     //не находит, хотя компонент вынесла в функцию
   });
 }
