@@ -46,7 +46,7 @@ export function postCom ({ text, token }){
 }
 
 //функция логина 
-export function login ({ login, password }){
+export function loginUser ({ login, password }){
   return fetch(userHost, {
        method: "POST",
        body: JSON.stringify({
@@ -54,7 +54,10 @@ export function login ({ login, password }){
         password,
        }),
      })
-       .then((response) => {
+     .then((response) => {
+      if (response.status === '400'){
+        throw new Error ('Неверный логин или пароль');
+      }
            return response.json();
-       })
+       });
 }

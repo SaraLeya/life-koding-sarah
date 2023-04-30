@@ -14,7 +14,7 @@ function apiGet() {
     commentsContainer = response.comments;
 
     loaderStart.style.display = "none";
-   // loaderComments.style.display = "none";
+   loaderComments.style.display = "none";
 
    renderApp();
   });
@@ -61,6 +61,7 @@ if (!token) {
 
   const appHtml = ` 
 <div class="container">
+<p id="loaderStart" class="loaderStart">ЗАГРУЗКА...</p>
 <ul id="list" class="comments">
   ${commentsContainerHtml}
 </ul>
