@@ -2,7 +2,7 @@ import { getRender, postCom} from "./1api.js";
 import { renderLoginComponents } from "./components/loginComponent.js";
 
 let commentsContainer;
-const loaderStart = document.querySelector(".loaderStart");
+
 
 const host = "https://webdev-hw-api.vercel.app/api/v2/kolesnichenko-a/comments";
 let token = "Bearer ksdfsksdfjfsdjk";
@@ -68,13 +68,7 @@ if (!token) {
 <div id="loaderComments" class="loaderComments">Комментарий загружается</div>
 <div id="add-form" class="add-form">
   <input id="inputName" type="text" class="add-form-name" placeholder="Введите ваше имя" />
-  <textarea
-    id="inputComment"
-    type="textarea"
-    class="add-form-text"
-    placeholder="Введите ваш комментарий"
-    rows="4"
-  ></textarea>
+  <textarea id="inputComment" type="textarea" class="add-form-text" placeholder="Введите ваш комментарий" rows="4"></textarea>
   <div class="add-form-row">
     <button id="buttonComent" class="add-form-button">Написать</button>
   </div>
@@ -89,6 +83,7 @@ if (!token) {
   const likesContainerElement = document.getElementById(".likes-counter");
   const addForm = document.getElementById("add-form");
   const loaderComments = document.querySelector(".loaderComments");
+  const loaderStart = document.querySelector(".loaderStart");
   
   loaderComments.style.display = "none";
   
@@ -102,43 +97,43 @@ if (!token) {
     buttonPost();
   });
 
-  function likesPlus() {
-    const heartsElement = document.querySelectorAll(".like-button");
+  // function likesPlus() {
+  //   const heartsElement = document.querySelectorAll(".like-button");
   
-    for (const heartElement of heartsElement) {
-      heartElement.addEventListener("click", (event) => {
-        event.stopPropagation();
-        const id = heartElement.dataset.id;
-        if (commentsContainer[id].isLiked === false) {
-          commentsContainer[id].isLiked = true;
-          commentsContainer[id].likes += 1;
-        } else if (commentsContainer[id].isLiked === true) {
-          commentsContainer[id].isLiked = false;
-          commentsContainer[id].likes -= 1;
-        }
-        renderApp();
-      });
-    }
-  }
-  likesPlus();
+  //   for (const heartElement of heartsElement) {
+  //     heartElement.addEventListener("click", (event) => {
+  //       event.stopPropagation();
+  //       const id = heartElement.dataset.id;
+  //       if (commentsContainer[id].isLiked === false) {
+  //         commentsContainer[id].isLiked = true;
+  //         commentsContainer[id].likes += 1;
+  //       } else if (commentsContainer[id].isLiked === true) {
+  //         commentsContainer[id].isLiked = false;
+  //         commentsContainer[id].likes -= 1;
+  //       }
+  //       renderApp();
+  //     });
+  //   }
+  // }
+  // likesPlus();
   
-  function commentsAnswer() {
-    const commentsAnswer = document.querySelectorAll(".comment");
-    for (const commentAnswer of commentsAnswer) {
-      commentAnswer.addEventListener("click", () => {
-        const index = commentAnswer.dataset.id;
-        commentElement.value =
-          ">" +
-          commentsContainer[index].text +
-          " " +
-          commentsContainer[index].author.name +
-          ",";
-      });
-    }
-  }
+  // function commentsAnswer() {
+  //   const commentsAnswer = document.querySelectorAll(".comment");
+  //   for (const commentAnswer of commentsAnswer) {
+  //     commentAnswer.addEventListener("click", () => {
+  //       const index = commentAnswer.dataset.id;
+  //       commentElement.value =
+  //         ">" +
+  //         commentsContainer[index].text +
+  //         " " +
+  //         commentsContainer[index].author.name +
+  //         ",";
+  //     });
+  //   }
+  // }
 
-  likesPlus();
-  commentsAnswer();
+  // likesPlus();
+  // commentsAnswer();
 }
 
 

@@ -7,7 +7,7 @@ export function getRender({ token }){
     return fetch(host, {
         method: "GET",
         headers: {
-          AAuthorization: token,
+          Authorization: token,
         },
       })
         .then((response) => {
@@ -25,7 +25,7 @@ export function postCom ({ text, token }){
           //forceError: true,
         }),
         headers: {
-            AAuthorization: token,
+            Authorization: token,
           },
       })
         .then((response) => {
