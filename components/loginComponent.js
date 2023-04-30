@@ -15,7 +15,9 @@ export function renderLoginComponents ({ appEl, setToken }){
           </div>`;
       appEl.innerHTML = appHtml;
   document.getElementById('login-button').addEventListener('click', () => {
-    token = "Bearer ksdfsksdfjfsdjk";
+
+    setToken("Bearer ksdfsksdfjfsdjk");
     apiGet();
+    //не находит, хотя компонент вынесла в функцию
   });
 }

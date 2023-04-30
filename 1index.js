@@ -25,7 +25,11 @@ renderApp();
 function renderApp() {
   const appEl = document.getElementById("app");
 if (!token) { 
-  renderLoginComponents({ appEl });
+  renderLoginComponents({ appEl, setToken: (newToken) => {
+    token = newToken;
+  },
+  apiGet,
+});
     return;
 }
 
