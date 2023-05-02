@@ -1,5 +1,5 @@
 import { getRender, postCom} from "./1api.js";
-import { renderLoginComponents } from "./components/loginComponent.js";
+import { renderLoginReg, renderLoginIn } from "./components/loginComponent.js";
 
 let commentsContainer;
 
@@ -13,26 +13,18 @@ function apiGet() {
   .then((response) => {
     commentsContainer = response.comments;
 
-    loaderStart.style.display = "none";
-   loaderComments.style.display = "none";
+  //   loaderStart.style.display = "none";
+  //  loaderComments.style.display = "none";
 
    renderApp();
   });
 }
 
-renderApp();
+apiGet();
 
 function renderApp() {
   const appEl = document.getElementById("app");
 if (!token) { 
-  renderLoginComponents({ appEl, setToken: (newToken) => {
-    token = newToken;
-  },
-  apiGet,
-});
-    return;
-}
-
   const commentsContainerHtml = commentsContainer
   .map((commentUser, id) => {
     return `<li data-id="${id}" class="comment">
@@ -60,6 +52,63 @@ if (!token) {
   .join("");
 
   const appHtml = ` 
+<div class="container">
+<ul id="list" class="comments">
+  ${commentsContainerHtml}
+</ul>
+<h4>необходимо <span id="buttonIn">войти</span> в аккаунт или <span id="buttonReg">зарегистрироваться</span></h4>
+</div>`;
+  appEl.innerHTML = appHtml;
+  let buttonIn = document.getElementById("buttonIn");
+  const buttonReg = document.getElementById("buttonReg");
+  
+  buttonIn.addEventListener ("click", () => {
+    renderLoginIn ({ appEl, setToken: (newToken) => {
+    token = newToken;
+  },
+  apiGet,
+});
+
+    return;
+  });
+  buttonReg.addEventListener ("click", () => {
+    renderLoginReg({ appEl, setToken: (newToken) => {
+      token = newToken;
+    },
+    apiGet,
+  });
+  
+      return;
+    });
+} else {
+
+  const commentsContainerHtml = commentsContainer
+  .map((commentUser, id) => {
+    return `<li data-id="${id}" class="comment">
+      <div class="comment-header">
+        <div>${commentUser.author.name} </div>
+        <div>
+          ${timeComment(commentUser.date)}
+          </div>
+      </div>
+      <div class="comment-body">
+        <div style="white-space: pre-line" class="comment-text">
+          ${commentUser.text}
+        </div>
+      </div>
+      <div class="comment-footer">
+        <div class="likes">
+          <span class="likes-counter">${commentUser.likes}</span>
+          <button data-id="${id}" class="${
+      commentUser.isLiked ? "like-button -active-like" : "like-button"
+    }"></button>
+        </div>
+      </div>
+    </li>`;
+  })
+  .join("");
+
+  const appHtml = `
 <div class="container">
 <p id="loaderStart" class="loaderStart">ЗАГРУЗКА...</p>
 <ul id="list" class="comments">
@@ -134,6 +183,7 @@ if (!token) {
 
   // likesPlus();
   // commentsAnswer();
+}
 }
 
 
