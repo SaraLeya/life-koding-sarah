@@ -5,8 +5,8 @@ let commentsContainer;
 
 
 const host = "https://webdev-hw-api.vercel.app/api/v2/kolesnichenko-a/comments";
-let token = "Bearer ksdfsksdfjfsdjk";
-token = null;
+let token;
+
 
 function apiGet() {
   return getRender({ token })
