@@ -26,8 +26,8 @@ document.getElementById('login-button').addEventListener('click', () => {
     }
     
     loginUser ({
-    login:'login',
-    password:'password',
+    login:login,
+    password:password,
     })
     .then((user) => {
     console.log(user);
@@ -90,9 +90,9 @@ document.getElementById("buttonIn").addEventListener('click', () => {
         return;
       }
       registerUser ({
-      login:'login',
-      password:'password',
-      name:'name',
+      login:login,
+      password:password,
+      name:nameUser,
       })
       .then((user) => {
       console.log(user);
