@@ -36,7 +36,7 @@ document.getElementById('login-button').addEventListener('click', () => {
     })
     .catch((error) => {
     //вывести красивый алерт 
-    alert(error.message);
+   console.log(error);
   });
 });
 buttonReg.addEventListener ("click", () => {
@@ -101,9 +101,9 @@ document.getElementById("buttonIn").addEventListener('click', () => {
       })
       .catch((error) => {
       //вывести красивый алерт 
-      alert(error.message);
+      console.log(error);
       });
     });
 
-renderForm();
+// renderForm();
 }
