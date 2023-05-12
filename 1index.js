@@ -63,11 +63,7 @@ if (!token) {
   const buttonReg = document.getElementById("buttonReg");
   
   buttonIn.addEventListener ("click", () => {
-    renderLoginIn ({ appEl, setToken: (newToken) => {
-    token = newToken;
-  },
-  apiGet,
-});
+    renderLoginIn ({ appEl, setToken, apiGet,});
 
     return;
   });
@@ -189,6 +185,12 @@ if (!token) {
 
 
 function buttonPost() {
+  let buttonElement = document.getElementById("buttonComent");
+  const commentElement = document.getElementById("inputComment");
+  const likesContainerElement = document.getElementById(".likes-counter");
+  const addForm = document.getElementById("add-form");
+  const loaderComments = document.querySelector(".loaderComments");
+
   return postCom({
     text: commentElement.value,
     token
