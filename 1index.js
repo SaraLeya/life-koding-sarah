@@ -1,35 +1,30 @@
-
+import { getRender, postCom} from "./1api.js";
+import { renderLoginReg, renderLoginIn } from "./components/loginComponent.js";
 
 let commentsContainer;
-const loaderStart = document.querySelector(".loaderStart");
+
 
 const host = "https://webdev-hw-api.vercel.app/api/v2/kolesnichenko-a/comments";
-let password = "Bearer ksdfsksdfjfsdjk";
+let token;
+
 
 function apiGet() {
-  fetch(host, {
-    method: "GET",
-    headers: {
-      AAuthorization: password,
-    },
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((response) => {
-      commentsContainer = response.comments;
+  return getRender({ token })
+  .then((response) => {
+    commentsContainer = response.comments;
 
-      loaderStart.style.display = "none";
-     // loaderComments.style.display = "none";
+  //   loaderStart.style.display = "none";
+  //  loaderComments.style.display = "none";
 
-     renderApp();
-    });
+   renderApp();
+  });
 }
 
 apiGet();
 
 function renderApp() {
   const appEl = document.getElementById("app");
+if (!token) { 
   const commentsContainerHtml = commentsContainer
   .map((commentUser, id) => {
     return `<li data-id="${id}" class="comment">
@@ -58,33 +53,67 @@ function renderApp() {
 
   const appHtml = ` 
 <div class="container">
+<ul id="list" class="comments">
+  ${commentsContainerHtml}
+</ul>
+<h4>необходимо <span id="buttonIn">войти</span> в аккаунт или <span id="buttonReg">зарегистрироваться</span></h4>
+</div>`;
+  appEl.innerHTML = appHtml;
+  let buttonIn = document.getElementById("buttonIn");
+  const buttonReg = document.getElementById("buttonReg");
+  
+  buttonIn.addEventListener ("click", () => {
+    renderLoginIn ({ appEl, setToken, apiGet,});
 
-<div id="pass" class="add-formPass">
-        <input id="userName" type="text" class="add-form-userName" placeholder="Введите логин" />
-        <textarea
-          id="userPass"
-          type="textarea"
-          class="add-form-userPass"
-          placeholder="Введите ваш пароль"
-          rows="1"
-        ></textarea>
-        <div class="add-form-row">
-          <button id="buttonApp" class="add-form-button">Войти</button>
+    return;
+  });
+  buttonReg.addEventListener ("click", () => {
+    renderLoginReg({ appEl, setToken: (newToken) => {
+      token = newToken;
+    },
+    apiGet,
+  });
+  
+      return;
+    });
+} else {
+
+  const commentsContainerHtml = commentsContainer
+  .map((commentUser, id) => {
+    return `<li data-id="${id}" class="comment">
+      <div class="comment-header">
+        <div>${commentUser.author.name} </div>
+        <div>
+          ${timeComment(commentUser.date)}
+          </div>
+      </div>
+      <div class="comment-body">
+        <div style="white-space: pre-line" class="comment-text">
+          ${commentUser.text}
         </div>
       </div>
+      <div class="comment-footer">
+        <div class="likes">
+          <span class="likes-counter">${commentUser.likes}</span>
+          <button data-id="${id}" class="${
+      commentUser.isLiked ? "like-button -active-like" : "like-button"
+    }"></button>
+        </div>
+      </div>
+    </li>`;
+  })
+  .join("");
+
+  const appHtml = `
+<div class="container">
+<p id="loaderStart" class="loaderStart">ЗАГРУЗКА...</p>
 <ul id="list" class="comments">
   ${commentsContainerHtml}
 </ul>
 <div id="loaderComments" class="loaderComments">Комментарий загружается</div>
 <div id="add-form" class="add-form">
   <input id="inputName" type="text" class="add-form-name" placeholder="Введите ваше имя" />
-  <textarea
-    id="inputComment"
-    type="textarea"
-    class="add-form-text"
-    placeholder="Введите ваш комментарий"
-    rows="4"
-  ></textarea>
+  <textarea id="inputComment" type="textarea" class="add-form-text" placeholder="Введите ваш комментарий" rows="4"></textarea>
   <div class="add-form-row">
     <button id="buttonComent" class="add-form-button">Написать</button>
   </div>
@@ -99,6 +128,7 @@ function renderApp() {
   const likesContainerElement = document.getElementById(".likes-counter");
   const addForm = document.getElementById("add-form");
   const loaderComments = document.querySelector(".loaderComments");
+  const loaderStart = document.querySelector(".loaderStart");
   
   loaderComments.style.display = "none";
   
@@ -112,72 +142,54 @@ function renderApp() {
     buttonPost();
   });
 
-  function likesPlus() {
-    const heartsElement = document.querySelectorAll(".like-button");
+  // function likesPlus() {
+  //   const heartsElement = document.querySelectorAll(".like-button");
   
-    for (const heartElement of heartsElement) {
-      heartElement.addEventListener("click", (event) => {
-        event.stopPropagation();
-        const id = heartElement.dataset.id;
-        if (commentsContainer[id].isLiked === false) {
-          commentsContainer[id].isLiked = true;
-          commentsContainer[id].likes += 1;
-        } else if (commentsContainer[id].isLiked === true) {
-          commentsContainer[id].isLiked = false;
-          commentsContainer[id].likes -= 1;
-        }
-        renderApp();
-      });
-    }
-  }
-  likesPlus();
+  //   for (const heartElement of heartsElement) {
+  //     heartElement.addEventListener("click", (event) => {
+  //       event.stopPropagation();
+  //       const id = heartElement.dataset.id;
+  //       if (commentsContainer[id].isLiked === false) {
+  //         commentsContainer[id].isLiked = true;
+  //         commentsContainer[id].likes += 1;
+  //       } else if (commentsContainer[id].isLiked === true) {
+  //         commentsContainer[id].isLiked = false;
+  //         commentsContainer[id].likes -= 1;
+  //       }
+  //       renderApp();
+  //     });
+  //   }
+  // }
+  // likesPlus();
   
-  function commentsAnswer() {
-    const commentsAnswer = document.querySelectorAll(".comment");
-    for (const commentAnswer of commentsAnswer) {
-      commentAnswer.addEventListener("click", () => {
-        const index = commentAnswer.dataset.id;
-        commentElement.value =
-          ">" +
-          commentsContainer[index].text +
-          " " +
-          commentsContainer[index].author.name +
-          ",";
-      });
-    }
-  }
+  // function commentsAnswer() {
+  //   const commentsAnswer = document.querySelectorAll(".comment");
+  //   for (const commentAnswer of commentsAnswer) {
+  //     commentAnswer.addEventListener("click", () => {
+  //       const index = commentAnswer.dataset.id;
+  //       commentElement.value =
+  //         ">" +
+  //         commentsContainer[index].text +
+  //         " " +
+  //         commentsContainer[index].author.name +
+  //         ",";
+  //     });
+  //   }
+  // }
 
-  likesPlus();
-  commentsAnswer();
+  // likesPlus();
+  // commentsAnswer();
+}
 }
 
 
 
 function buttonPost() {
-  fetch(host, {
-    method: "POST",
-    body: JSON.stringify({
-      //text: commentElement.value,
-      //name: nameElement.value,
-      //forceError: true,
-    }),
+
+  return postCom({
+    text: commentElement.value,
+    token
   })
-    .then((response) => {
-      if (response.status === 500) {
-        loaderComments.style.display = "none";
-        alert("Сервер не работает. Проверьте подключение и попробуйте еще раз");
-        return Promise.reject(
-          "Сервер не работает. Проверьте подключение и попробуйте еще раз"
-        );
-      } else if (response.status === 400) {
-        loaderComments.style.display = "none";
-        alert("Мало букв");
-        return Promise.reject("Мало букв");
-      } else {
-        loaderComments.style.display = "block";
-        return response.json();
-      }
-    })
     .then((response) => {
       commentElement.value = "";
       nameElement.value = "";
@@ -195,7 +207,7 @@ function buttonPost() {
         console.error(error);
         return;
       }
-      // Если не сработал ни один случай выше, то осталась ошибка сервера
+
       alert("Кажется, у вас сломался интернет, попробуйте позже");
       return;
     });
