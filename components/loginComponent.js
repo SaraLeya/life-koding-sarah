@@ -35,7 +35,6 @@ document.getElementById('login-button').addEventListener('click', () => {
     apiGet();
     })
     .catch((error) => {
-    //вывести красивый алерт 
    console.log(error);
   });
 });
@@ -60,7 +59,7 @@ export function renderLoginReg({ appEl, setToken, apiGet }){
   <input id="password" type="text" class="add-form-name" placeholder="Введите ваш пароль" />
   <div class="add-form-row">
     <button id="buttonIn" class="add-form-button">Перейти на страницу входа</button>
-    <button id="button-toggler" class="add-form-button">ПЗарегистрировать нового пользователя</button>
+    <button id="button-toggler" class="add-form-button">Зарегистрировать нового пользователя</button>
   </div>`;
     appEl.innerHTML = appHtml;
     

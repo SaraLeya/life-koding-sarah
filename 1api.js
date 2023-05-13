@@ -1,7 +1,10 @@
 
 const host = "https://webdev-hw-api.vercel.app/api/v2/kolesnichenko-a/comments";
-const userHost = " https://webdev-hw-api.vercel.app/api/user/login";
+//рендер и комент?
+const userHost = "https://webdev-hw-api.vercel.app/api/user/login";
+//рендер логина и пароля?
 const RegNewUser = "https://webdev-hw-api.vercel.app/api/user";
+//регистрация 
 
 export function getRender({ token }){
     return fetch(host, {
@@ -17,6 +20,8 @@ export function getRender({ token }){
 }
 
 export function postCom ({ text, token }){
+  //имя??? 
+
    return fetch(host, {
         method: "POST",
         body: JSON.stringify({

@@ -185,11 +185,6 @@ if (!token) {
 
 
 function buttonPost() {
-  let buttonElement = document.getElementById("buttonComent");
-  const commentElement = document.getElementById("inputComment");
-  const likesContainerElement = document.getElementById(".likes-counter");
-  const addForm = document.getElementById("add-form");
-  const loaderComments = document.querySelector(".loaderComments");
 
   return postCom({
     text: commentElement.value,
@@ -212,7 +207,7 @@ function buttonPost() {
         console.error(error);
         return;
       }
-      // Если не сработал ни один случай выше, то осталась ошибка сервера
+
       alert("Кажется, у вас сломался интернет, попробуйте позже");
       return;
     });
